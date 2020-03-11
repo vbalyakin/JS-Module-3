@@ -88,18 +88,32 @@ yargs.command({ // РАБОТАЕТ!
         creator.writeNotesToCSV();
     }
 });
-yargs.command({
-    command: "writetoxls",
-    describe: "write notes to XLS",
-    handler() {
-        creator.writeNotesToXLS();
-    }
-});
 yargs.command({ // РАБОТАЕТ!
     command: "writetojson",
     describe: "write notes to JSON from CSV",
     handler() {
         creator.writeNotesFromCSVToJSON();
+    }
+});
+yargs.command({ // РАБОТАЕТ!
+    command: "update",
+    describe: "update note with given title and body",
+    builder: {
+        title: {
+            type: "string",
+            demandOption: true,
+            alias: "t",
+            describe: "find by title"
+        },
+        body: {
+            type: "string",
+            demandOption: false,
+            alias: "b",
+            describe: "update body"
+        }
+    },
+    handler({title,body}) {
+        creator.findAndUpdateNote(title, body);
     }
 });
 

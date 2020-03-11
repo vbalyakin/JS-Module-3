@@ -18,6 +18,7 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "csvtojson": "^2.0.10",
+    "date-format": "^3.0.0",
     "json2csv": "^4.5.4",
     "json2xls": "^0.1.2",
     "lodash": "^4.17.15",

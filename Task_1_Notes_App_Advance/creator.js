@@ -2,28 +2,35 @@ const fs = require("fs"),
     path = require("path"),
     pathToNotesStorage = path.join("./notes.json"),
     pathToNotesInCSV = path.join("./notes.csv"),
-    pathToNotesInXLSX = path.join("./notes.xlsx"),
-    pathToNotesInJSON = path.join("./fromcsvnotes.json"),
+    pathToNotesInJSON = path.join("./fromCSVNotes.json"),
+    pathToUpdatedNotes = path.join("./updatedNotes.json"),
     csv = require("csvtojson"),
-    json2xls = require("json2xls"),
+    format = require("date-format"),
     {
         Parser
     } = require("json2csv");
 
+const getNotesFromJSON = () => {
+    return JSON.parse(fs.readFileSync(pathToNotesStorage));
+};
+
+const writeNotesToJSON = (array) => {
+    fs.writeFileSync(pathToNotesStorage, JSON.stringify(array, null, "\t"));
+};
+
 const getAllNotes = () => {
     try {
-        return JSON.parse(fs.readFileSync(pathToNotesStorage));
+        return getNotesFromJSON();
     } catch (error) {
         fs.writeFileSync(pathToNotesStorage, JSON.stringify([]));
-        return JSON.parse(fs.readFileSync(pathToNotesStorage));
+        return getNotesFromJSON();
     }
 };
 
 const createNote = (title, body) => {
     const note = {},
         array = getAllNotes(),
-        // date = new Date(),
-        timeOfCreate = new Date().toLocaleString("en-GB");
+        timeOfCreate = format.asString("dd/MM/yy hh:mm:ss", new Date());
     note.title = title;
     note.body = body;
     note.time = timeOfCreate;
@@ -32,7 +39,7 @@ const createNote = (title, body) => {
         console.log("You create dublicate of note!");
     } else {
         array.push(note);
-        fs.writeFileSync(pathToNotesStorage, JSON.stringify(array, null, "\t"));
+        writeNotesToJSON(array);
     }
 };
 
@@ -50,7 +57,7 @@ const listOfNotes = () => {
 const readNote = title => {
     const array = getAllNotes(),
         noteFinder = array.find(element => element.title === title),
-        result = noteFinder ? `Your note:\n${title} - ` + noteFinder.body : "Note isn't exist!";
+        result = noteFinder ? `Your note:\n${title} ${noteFinder.body}` : "Note isn't exist!";
     console.log(result);
 };
 
@@ -70,19 +77,19 @@ const sortNotes = data => {
     const array = getAllNotes();
     if (data === "time") { // сортировка по времени
         array.sort((a, b) => a.time > b.time ? -1 : 1);
-        fs.writeFileSync(pathToNotesStorage, JSON.stringify(array, null, '\t'));
+        writeNotesToJSON(array); // заменить на функцию
     }
     if (data === "title") { // сортировка по длине названия
         array.sort((a, b) => a.title.length - b.title.length);
-        fs.writeFileSync(pathToNotesStorage, JSON.stringify(array, null, "\t"));
+        writeNotesToJSON(array);
     }
     if (data === "body") { // сортировка по длине самое заметки
         array.sort((a, b) => b.body.length - a.body.length);
-        fs.writeFileSync(pathToNotesStorage, JSON.stringify(array, null, "\t"));
+        writeNotesToJSON(array);
     }
     if (data === "titlealph") { // сортировка по алфавиту
         array.sort((a, b) => a.title < b.title ? -1 : 1);
-        fs.writeFileSync(pathToNotesStorage, JSON.stringify(array, null, "\t"));
+        writeNotesToJSON(array);
     }
 };
 
@@ -94,22 +101,6 @@ const writeNotesToCSV = () => { // выводит данные в CSV файл
         }),
         csv = json2csvParser.parse(notes);
     fs.writeFileSync(pathToNotesInCSV, csv);
-    // console.log(csv);
-};
-
-const writeNotesToXLS = () => { // ошибка в самом модуле!
-    const xls = json2xls(pathToNotesStorage);
-    fs.writeFileSync(pathToNotesInExcel, xls);
-};
-
-const writeNotesToXLSSecond = () => { // и тут тоже ошибка!
-    let xls = json2xls(pathToNotesStorage);
-    fs.writeFileSync(pathToNotesInXLSX, xls, "binary", (err) => {
-        if (err) {
-            console.log("writeFileSync :", err);
-        }
-        console.log(pathToNotesInXLSX + " file is saved!");
-    });
 };
 
 const writeNotesFromCSVToJSON = () => { // выводит данные из CSV в JSON
@@ -120,6 +111,24 @@ const writeNotesFromCSVToJSON = () => { // выводит данные из CSV 
         });
 };
 
+const findAndUpdateNote = (title, body) => {
+    const array = getAllNotes(),
+        timeOfCreate = new Date().toLocaleString("en-GB");
+    let counter = 0;
+    array.map(note => {
+        updater = note.title === title;
+        if (updater) {
+            note.title = title;
+            note.body = body;
+            note.time = timeOfCreate;
+            counter++;
+        }
+    });
+    const result = counter ? "Note updated succesfully!" : "Note with given title not founded!";
+    console.log(result);
+    fs.writeFileSync(pathToUpdatedNotes, JSON.stringify(array, null, "\t"));
+};
+
 module.exports = {
     createNote,
     listOfNotes,
@@ -127,6 +136,6 @@ module.exports = {
     removeNote,
     sortNotes,
     writeNotesToCSV,
-    writeNotesToXLS,
-    writeNotesFromCSVToJSON
+    writeNotesFromCSVToJSON,
+    findAndUpdateNote
 };
