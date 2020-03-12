@@ -5,27 +5,27 @@
 // Classes Dog and Cat has methods meow and bark and return string (‘Cat/Dog {name} is saying meow/bark’).
 // Классы Собака и Кот должны иметь методы мяукания и рычания и возвращать строку, мол «Собака Рекс сказала гав» или «Кот Яша сказал мяу»
 
-const animal = {
-    getName(name) {
-        return name;
-    }, 
-};
-
-const dog = { // prototype? 
-    //__proto__: animal, - ЧТО-ТО НЕ ТАК
-    name: animal.getName("Jack"),
-    bark() {
-        return `Dog ${this.name} is saying bark!`;
+const animal = new Object({
+    getName: function() { // первый вариант
+        return this.name;
     }
+});
+
+// Object.prototype.getName = function() { // второй вариант
+//     return this.name;
+// };
+
+const cat = Object.create(animal);
+cat.name = "Yasha";
+cat.meow = function () {
+    return "Meow! My name is " + cat.getName();
 };
 
-const cat = {
-    __proto__: animal,
-    name: animal.getName("Yasha"),
-    meow() {
-        return `Cat ${this.name} is saying meow!`;
-    }
+const dog = Object.create(animal);
+dog.name = "Jack";
+dog.bark = function () {
+    return "Bark! My name is " + dog.getName();
 };
 
-console.log(dog.bark());
 console.log(cat.meow());
+console.log(dog.bark());
