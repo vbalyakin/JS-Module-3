@@ -19,19 +19,19 @@ const writeNotesToJSON = (array) => {
 };
 
 const sortBodyOrTitle = (array, data) => {
-    if (data === "body") { // сортировка по длине текста заметки
+    if (data === "body") {
         array.sort((a, b) => b.body.length - a.body.length);
     }
-    if (data === "title") { // сортировка по длине названия заметки
+    if (data === "title") {
         array.sort((a, b) => a.title.length - b.title.length);
     }
 };
 
 const sortTimeOrTitleAlphabetic = (array, data) => {
-    if (data === "time") { // сортировка по времени
+    if (data === "time") {
         array.sort((a, b) => a.time > b.time ? -1 : 1);
     }
-    if (data === "titlealph") { // сортировка по алфавиту
+    if (data === "titlealph") {
         array.sort((a, b) => a.title < b.title ? -1 : 1);
     }
 };
@@ -98,7 +98,7 @@ const sortNotes = data => {
     writeNotesToJSON(array);
 };
 
-const writeNotesToCSV = () => { // выводит данные в CSV файл
+const writeNotesToCSV = () => {
     const fields = ["title", "body", "time"],
         notes = getAllNotes(),
         json2csvParser = new Parser({
@@ -108,7 +108,7 @@ const writeNotesToCSV = () => { // выводит данные в CSV файл
     fs.writeFileSync(pathToNotesInCSV, csv);
 };
 
-const writeNotesFromCSVToJSON = () => { // выводит данные из CSV в JSON
+const writeNotesFromCSVToJSON = () => {
     csv()
         .fromFile(pathToNotesInCSV)
         .then(jsonObject => {

@@ -54,6 +54,8 @@ node_modules
 
 jspm_packages
 
+.vscode
+
 
 
 # Optional npm cache directory

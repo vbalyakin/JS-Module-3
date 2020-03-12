@@ -2,30 +2,6 @@ const yargs = require("yargs"),
     builder = require("./builder");
 
 yargs.command({
-    command: "add",
-    describe: "add new unique note",
-    builder: {
-        title: {
-            type: "string",
-            demandOption: true,
-            alias: "t",
-            describe: "Title of new note"
-        },
-        body: {
-            type: "string",
-            demandOption: true,
-            alias: "b",
-            describe: "Content of new note"
-        }
-    },
-    handler({
-        title,
-        body
-    }) {
-        creator.createNote(title, body);
-    }
-});
-yargs.command({
     command: "getdata",
     describe: "download data to local json file",
     handler() {
@@ -33,49 +9,54 @@ yargs.command({
     }
 });
 yargs.command({
-    command: "list",
-    describe: "list all notes",
-    handler() {
-        creator.listOfNotes();
-    }
-});
-yargs.command({
-    command: "read",
-    describe: "read character by status",
+    command: "findstatus",
+    describe: "Find character by status",
     builder: {
         status: {
             type: "string",
             demandOption: true,
             alias: "s",
             describe: "Status of character"
-        }
+        },
     },
     handler({
         status
     }) {
-        builder.readCharacter(status);
+        builder.findCharacterStatus(status);
     }
 });
-yargs.command({ // РАБОТАЕТ!
-    command: "sort",
-    describe: "sort by data",
+yargs.command({
+    command: "findgender",
+    describe: "Find character by gender",
     builder: {
-        data: {
+        gender: {
             type: "string",
             demandOption: true,
-            alias: "d",
-            describe: "Sort by data"
+            alias: "g",
+            describe: "Gender of character"
         }
     },
-    handler({data}) {
-        creator.sortNotes(data);
+    handler({
+        gender
+    }) {
+        builder.findCharacterGender(gender);
     }
 });
-yargs.command({ // РАБОТАЕТ!
-    command: "writetojson",
-    describe: "write notes to JSON from CSV",
-    handler() {
-        creator.writeNotesFromCSVToJSON();
+yargs.command({
+    command: "findspecies",
+    describe: "Find character by species",
+    builder: {
+        species: {
+            type: "string",
+            demandOption: true,
+            alias: "s",
+            describe: "Species of character"
+        },
+    },
+    handler({
+        species
+    }) {
+        builder.findCharacterSpecies(species);
     }
 });
 

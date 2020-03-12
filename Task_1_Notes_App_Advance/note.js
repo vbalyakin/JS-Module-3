@@ -66,7 +66,7 @@ yargs.command({
         creator.removeNote(title);
     }
 });
-yargs.command({ // РАБОТАЕТ!
+yargs.command({
     command: "sort",
     describe: "sort by data",
     builder: {
@@ -81,21 +81,21 @@ yargs.command({ // РАБОТАЕТ!
         creator.sortNotes(data);
     }
 });
-yargs.command({ // РАБОТАЕТ!
+yargs.command({
     command: "writetocsv",
     describe: "export notes to CSV",
     handler() {
         creator.writeNotesToCSV();
     }
 });
-yargs.command({ // РАБОТАЕТ!
+yargs.command({
     command: "writetojson",
     describe: "write notes to JSON from CSV",
     handler() {
         creator.writeNotesFromCSVToJSON();
     }
 });
-yargs.command({ // РАБОТАЕТ!
+yargs.command({
     command: "update",
     describe: "update note with given title and body",
     builder: {
