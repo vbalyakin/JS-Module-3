@@ -18,6 +18,24 @@ const writeNotesToJSON = (array) => {
     fs.writeFileSync(pathToNotesStorage, JSON.stringify(array, null, "\t"));
 };
 
+const sortBodyOrTitle = (array, data) => {
+    if (data === "body") { // сортировка по длине текста заметки
+        array.sort((a, b) => b.body.length - a.body.length);
+    }
+    if (data === "title") { // сортировка по длине названия заметки
+        array.sort((a, b) => a.title.length - b.title.length);
+    }
+};
+
+const sortTimeOrTitleAlphabetic = (array, data) => {
+    if (data === "time") { // сортировка по времени
+        array.sort((a, b) => a.time > b.time ? -1 : 1);
+    }
+    if (data === "titlealph") { // сортировка по алфавиту
+        array.sort((a, b) => a.title < b.title ? -1 : 1);
+    }
+};
+
 const getAllNotes = () => {
     try {
         return getNotesFromJSON();
@@ -75,22 +93,9 @@ const removeNote = title => {
 
 const sortNotes = data => {
     const array = getAllNotes();
-    if (data === "time") { // сортировка по времени
-        array.sort((a, b) => a.time > b.time ? -1 : 1);
-        writeNotesToJSON(array); // заменить на функцию
-    }
-    if (data === "title") { // сортировка по длине названия
-        array.sort((a, b) => a.title.length - b.title.length);
-        writeNotesToJSON(array);
-    }
-    if (data === "body") { // сортировка по длине самое заметки
-        array.sort((a, b) => b.body.length - a.body.length);
-        writeNotesToJSON(array);
-    }
-    if (data === "titlealph") { // сортировка по алфавиту
-        array.sort((a, b) => a.title < b.title ? -1 : 1);
-        writeNotesToJSON(array);
-    }
+    sortBodyOrTitle(array, data);
+    sortTimeOrTitleAlphabetic(array, data);
+    writeNotesToJSON(array);
 };
 
 const writeNotesToCSV = () => { // выводит данные в CSV файл
