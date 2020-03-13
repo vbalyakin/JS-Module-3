@@ -9,54 +9,26 @@ yargs.command({
     }
 });
 yargs.command({
-    command: "findstatus",
-    describe: "Find character by status",
+    command: "find",
+    describe: "Find character by given parameters",
     builder: {
-        status: {
+        parameter: {
             type: "string",
             demandOption: true,
-            alias: "s",
-            describe: "Status of character"
+            alias: "p",
+            describe: "Any parameter for search"
         },
-    },
-    handler({
-        status
-    }) {
-        builder.findCharacterStatus(status);
-    }
-});
-yargs.command({
-    command: "findgender",
-    describe: "Find character by gender",
-    builder: {
-        gender: {
-            type: "string",
-            demandOption: true,
-            alias: "g",
-            describe: "Gender of character"
-        }
-    },
-    handler({
-        gender
-    }) {
-        builder.findCharacterGender(gender);
-    }
-});
-yargs.command({
-    command: "findspecies",
-    describe: "Find character by species",
-    builder: {
         species: {
             type: "string",
             demandOption: true,
             alias: "s",
-            describe: "Species of character"
+            describe: "Species of parameter"
         },
     },
     handler({
-        species
+        parameter, species
     }) {
-        builder.findCharacterSpecies(species);
+        builder.findCharacterByParameter(parameter, species);
     }
 });
 

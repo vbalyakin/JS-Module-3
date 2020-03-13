@@ -56,54 +56,25 @@ const verifyAndWrite = (array, counter) => {
   fs.writeFileSync(pathToSearchResults, JSON.stringify(array, null, "\t"));
 };
 
-const findCharacterStatus = status => {
+const findCharacterByParameter = (parameter, species) => {
   const array = getCharactersData(),
     timeOfCreate = format.asString("dd/MM/yy hh:mm:ss", new Date()),
     arrayWithResults = [];
   arrayWithResults.push("Results of search in " + timeOfCreate);
   let counter = 0;
-  array.forEach(character => {
-    if (character.status.toLowerCase() === status.toLowerCase()) {
-      arrayWithResults.push(`${character.name} - ${character.status}`);
-      counter++;
+  array.forEach((character) => {
+      for (let key in character) {
+        if (key.toLowerCase() === parameter.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
+          console.log(`${character.name} - ${key} - ${character[key]}`);
+          arrayWithResults.push(`${character.name} - ${key} - ${character[key]}`);
+          counter++;
+        }
     }
   });
-  verifyAndWrite(arrayWithResults, counter);
-};
-
-const findCharacterGender = gender => {
-  const array = getCharactersData(),
-    timeOfCreate = format.asString("dd/MM/yy hh:mm:ss", new Date()),
-    arrayWithResults = [];
-  arrayWithResults.push("Results of search in " + timeOfCreate);
-  let counter = 0;
-  array.forEach(character => {
-    if (character.gender.toLowerCase() === gender.toLowerCase()) {
-      arrayWithResults.push(`${character.name} - ${character.gender}`);
-      counter++;
-    }
-  });
-  verifyAndWrite(arrayWithResults, counter);
-};
-
-const findCharacterSpecies = species => {
-  const array = getCharactersData(),
-    timeOfCreate = format.asString("dd/MM/yy hh:mm:ss", new Date()),
-    arrayWithResults = [];
-  arrayWithResults.push("Results of search in " + timeOfCreate);
-  let counter = 0;
-  array.forEach(character => {
-    if (character.species.toLowerCase() === species.toLowerCase()) {
-      arrayWithResults.push(`${character.name} - ${character.species}`);
-      counter++;
-    }
-  });
-  verifyAndWrite(arrayWithResults, counter);
+verifyAndWrite(arrayWithResults, counter);
 };
 
 module.exports = {
   getAllCharacters,
-  findCharacterStatus,
-  findCharacterGender,
-  findCharacterSpecies
+  findCharacterByParameter
 };
