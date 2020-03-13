@@ -63,18 +63,49 @@ const findCharacterByParameter = (parameter, species) => {
   arrayWithResults.push("Results of search in " + timeOfCreate);
   let counter = 0;
   array.forEach((character) => {
-      for (let key in character) {
-        if (key.toLowerCase() === parameter.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
-          console.log(`${character.name} - ${key} - ${character[key]}`);
-          arrayWithResults.push(`${character.name} - ${key} - ${character[key]}`);
-          counter++;
-        }
+    for (let key in character) {
+      if (key.toLowerCase() === parameter.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
+        arrayWithResults.push(`${character.name} - ${key} - ${character[key]}`);
+        counter++;
+      }
     }
   });
-verifyAndWrite(arrayWithResults, counter);
+  verifyAndWrite(arrayWithResults, counter);
+};
+
+const findCharacterBySetOfParameters = (parameters, species) => {
+  const array = getCharactersData(),
+    timeOfCreate = format.asString("dd/MM/yy hh:mm:ss", new Date()),
+    arrayWithResults = [],
+    arrayWithNames = [],
+    divider = /\s*,\s*/,
+    arrayWithParameters = parameters.split(divider),
+    arrayWithSpecies = species.split(divider);
+  console.log(arrayWithParameters);
+  console.log(arrayWithSpecies);
+  let counter = 0,
+    resultOfCompare = 0;
+  arrayWithResults.push("Results of search in " + timeOfCreate);
+  array.forEach(character => {
+    for (let key in character) {
+      let sum = 0;
+      for (let parameters of arrayWithParameters) {
+        for (let species of arrayWithSpecies) {
+          if (key.toLowerCase() === parameters.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
+            // arrayWithResults.push(`${character.name} - ${key} - ${character[key]}`);
+            arrayWithResults.push(`${character.name}`);
+            counter++;
+          }
+          //console.log(character.hasOwnProperty("species"));
+        }
+      }
+    }
+  });
+  verifyAndWrite(arrayWithResults, counter);
 };
 
 module.exports = {
   getAllCharacters,
-  findCharacterByParameter
+  findCharacterByParameter,
+  findCharacterBySetOfParameters
 };
