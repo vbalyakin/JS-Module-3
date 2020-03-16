@@ -49,59 +49,74 @@ const getCharactersData = () => {
   }
 };
 
-const verifyAndWrite = (array, counter) => {
-  if (!counter) {
+const verifyAndWrite = (array) => {
+  if (array.length === 1) {
     array.push("Characters not founded!");
   }
   fs.writeFileSync(pathToSearchResults, JSON.stringify(array, null, "\t"));
 };
 
-const findCharacterByParameter = (parameter, species) => {
+const findUniqueElements = (array) => {
+  let result = [];
+  for (let element of array) {
+    if (!result.includes(element)) {
+      result.push(element);
+    }
+  }
+  return result;
+};
+
+const addValidCharactersInResultArray = (character, arrayWithResults, setOfNames) => {
+  if (setOfNames.has(`${character.name}`)) {
+    arrayWithResults.push(`${character.name}`);
+  } else {
+    setOfNames.add(`${character.name}`);
+  }
+  return arrayWithResults;
+};
+
+const iterateOverGivenParametersAndWriteResult = (character, key, arrayWithParameters, arrayWithSpecies, setOfNames, arrayWithResults) => {
+  for (let parameters of arrayWithParameters) {
+    for (let species of arrayWithSpecies) {
+      if (key.toLowerCase() === parameters.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
+        addValidCharactersInResultArray(character, arrayWithResults, setOfNames);
+      }
+    }
+  }
+};
+
+const findCharacterByParameter = (parameter, species) => { // node runner find -p "status" -s "alive" OR node runner find -p "species" -s "Human"
   const array = getCharactersData(),
     timeOfCreate = format.asString("dd/MM/yy hh:mm:ss", new Date()),
     arrayWithResults = [];
-  arrayWithResults.push("Results of search in " + timeOfCreate);
-  let counter = 0;
+  arrayWithResults.push("Results of search in " + timeOfCreate); // array length = 1
   array.forEach((character) => {
     for (let key in character) {
       if (key.toLowerCase() === parameter.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
         arrayWithResults.push(`${character.name} - ${key} - ${character[key]}`);
-        counter++;
       }
     }
   });
-  verifyAndWrite(arrayWithResults, counter);
+  verifyAndWrite(arrayWithResults);
 };
 
-const findCharacterBySetOfParameters = (parameters, species) => {
+const findCharacterBySetOfParameters = (parameters, species) => { // node runner findbyset -p "status, species, gender" -s "died, human, female"
   const array = getCharactersData(),
     timeOfCreate = format.asString("dd/MM/yy hh:mm:ss", new Date()),
     arrayWithResults = [],
-    arrayWithNames = [],
     divider = /\s*,\s*/,
     arrayWithParameters = parameters.split(divider),
     arrayWithSpecies = species.split(divider);
-  console.log(arrayWithParameters);
-  console.log(arrayWithSpecies);
-  let counter = 0,
-    resultOfCompare = 0;
+  let setOfNames = new Set(),
+    results = [];
   arrayWithResults.push("Results of search in " + timeOfCreate);
   array.forEach(character => {
     for (let key in character) {
-      let sum = 0;
-      for (let parameters of arrayWithParameters) {
-        for (let species of arrayWithSpecies) {
-          if (key.toLowerCase() === parameters.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
-            // arrayWithResults.push(`${character.name} - ${key} - ${character[key]}`);
-            arrayWithResults.push(`${character.name}`);
-            counter++;
-          }
-          //console.log(character.hasOwnProperty("species"));
-        }
-      }
+      iterateOverGivenParametersAndWriteResult(character, key, arrayWithParameters, arrayWithSpecies, setOfNames, arrayWithResults);
     }
   });
-  verifyAndWrite(arrayWithResults, counter);
+  results = findUniqueElements(arrayWithResults);
+  verifyAndWrite(results);
 };
 
 module.exports = {
