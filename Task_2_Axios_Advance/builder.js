@@ -40,6 +40,10 @@ const getCharactersFromJSON = () => {
   return JSON.parse(fs.readFileSync(pathToCharactersData));
 };
 
+const getDataStamp = () => {
+  return format.asString("dd/MM/yy hh:mm:ss", new Date());
+};
+
 const getCharactersData = () => {
   try {
     return getCharactersFromJSON();
@@ -76,20 +80,18 @@ const addValidCharactersInResultArray = (character, arrayWithResults, setOfNames
 };
 
 const iterateOverGivenParametersAndWriteResult = (character, key, arrayWithParameters, arrayWithSpecies, setOfNames, arrayWithResults) => {
-  for (let parameters of arrayWithParameters) {
-    for (let species of arrayWithSpecies) {
-      if (key.toLowerCase() === parameters.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
-        addValidCharactersInResultArray(character, arrayWithResults, setOfNames);
-      }
+  for (let i = 0; i < arrayWithParameters.length; i++) {
+    if (key.toLowerCase() === arrayWithParameters[i].toLowerCase() &&
+      character[key].toString().toLowerCase() === arrayWithSpecies[i].toLowerCase()) {
+      addValidCharactersInResultArray(character, arrayWithResults, setOfNames);
     }
   }
 };
 
 const findCharacterByParameter = (parameter, species) => { // node runner find -p "status" -s "alive" OR node runner find -p "species" -s "Human"
   const array = getCharactersData(),
-    timeOfCreate = format.asString("dd/MM/yy hh:mm:ss", new Date()),
     arrayWithResults = [];
-  arrayWithResults.push("Results of search in " + timeOfCreate); // array length = 1
+  arrayWithResults.push("Results of search in " + getDataStamp()); // array length = 1
   array.forEach((character) => {
     for (let key in character) {
       if (key.toLowerCase() === parameter.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
@@ -102,14 +104,13 @@ const findCharacterByParameter = (parameter, species) => { // node runner find -
 
 const findCharacterBySetOfParameters = (parameters, species) => { // node runner findbyset -p "status, species, gender" -s "died, human, female"
   const array = getCharactersData(),
-    timeOfCreate = format.asString("dd/MM/yy hh:mm:ss", new Date()),
     arrayWithResults = [],
     divider = /\s*,\s*/,
     arrayWithParameters = parameters.split(divider),
     arrayWithSpecies = species.split(divider);
   let setOfNames = new Set(),
     results = [];
-  arrayWithResults.push("Results of search in " + timeOfCreate);
+  arrayWithResults.push("Results of search in " + getDataStamp());
   array.forEach(character => {
     for (let key in character) {
       iterateOverGivenParametersAndWriteResult(character, key, arrayWithParameters, arrayWithSpecies, setOfNames, arrayWithResults);
