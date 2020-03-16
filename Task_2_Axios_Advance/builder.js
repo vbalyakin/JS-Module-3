@@ -60,46 +60,24 @@ const verifyAndWrite = (array) => {
   fs.writeFileSync(pathToSearchResults, JSON.stringify(array, null, "\t"));
 };
 
-const findUniqueElements = (array) => {
-  let result = [];
-  for (let element of array) {
-    if (!result.includes(element)) {
-      result.push(element);
-    }
-  }
-  return result;
-};
-
-const addValidCharactersInResultArray = (character, arrayWithResults, setOfNames) => {
-  if (setOfNames.has(`${character.name}`)) {
-    arrayWithResults.push(`${character.name}`);
-  } else {
-    setOfNames.add(`${character.name}`);
+const addResultToArray = (character, similarity, arrayWithResults, arrayWithParameters) => {
+  if (similarity === arrayWithParameters.length) {
+    arrayWithResults.push(character);
   }
   return arrayWithResults;
 };
 
-const iterateOverGivenParametersAndWriteResult = (character, key, arrayWithParameters, arrayWithSpecies, setOfNames, arrayWithResults) => {
-  for (let i = 0; i < arrayWithParameters.length; i++) {
-    if (key.toLowerCase() === arrayWithParameters[i].toLowerCase() &&
-      character[key].toString().toLowerCase() === arrayWithSpecies[i].toLowerCase()) {
-      addValidCharactersInResultArray(character, arrayWithResults, setOfNames);
-    }
-  }
-};
-
-const findCharacterByParameter = (parameter, species) => { // node runner find -p "status" -s "alive" OR node runner find -p "species" -s "Human"
-  const array = getCharactersData(),
-    arrayWithResults = [];
-  arrayWithResults.push("Results of search in " + getDataStamp()); // array length = 1
-  array.forEach((character) => {
-    for (let key in character) {
-      if (key.toLowerCase() === parameter.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
-        arrayWithResults.push(`${character.name} - ${key} - ${character[key]}`);
+const compareCharacterFieldsWithGivenParameters = (character, arrayWithParameters, arrayWithSpecies, similarity, arrayWithResults) => {
+  for (let key in character) {
+    for (let i = 0; i < arrayWithParameters.length; i++) {
+      if (key.toLowerCase() === arrayWithParameters[i].toLowerCase() &&
+        character[key].toString().toLowerCase() === arrayWithSpecies[i].toLowerCase()) {
+        similarity++;
+        addResultToArray(character, similarity, arrayWithResults, arrayWithParameters);
       }
     }
-  });
-  verifyAndWrite(arrayWithResults);
+  }
+  return arrayWithResults;
 };
 
 const findCharacterBySetOfParameters = (parameters, species) => { // node runner findbyset -p "status, species, gender" -s "dead, robot, female"
@@ -110,16 +88,20 @@ const findCharacterBySetOfParameters = (parameters, species) => { // node runner
     arrayWithSpecies = species.split(divider);
   arrayWithResults.push("Results of search in " + getDataStamp());
   array.forEach(character => {
-    let sum = 0;
+    let similarity = 0;
+    compareCharacterFieldsWithGivenParameters(character, arrayWithParameters, arrayWithSpecies, similarity, arrayWithResults);
+  });
+  verifyAndWrite(arrayWithResults);
+};
+
+const findCharacterByParameter = (parameter, species) => { // node runner find -p "status" -s "alive" OR node runner find -p "species" -s "Human"
+  const array = getCharactersData(),
+    arrayWithResults = [];
+  arrayWithResults.push("Results of search in " + getDataStamp()); // array length = 1
+  array.forEach((character) => {
     for (let key in character) {
-      for (let i = 0; i < arrayWithParameters.length; i++) {
-        if (key.toLowerCase() === arrayWithParameters[i].toLowerCase() &&
-          character[key].toString().toLowerCase() === arrayWithSpecies[i].toLowerCase()) {
-          sum ++;
-          if (sum === arrayWithParameters.length) {
-            arrayWithResults.push(character);
-          }
-        }
+      if (key.toLowerCase() === parameter.toLowerCase() && character[key].toString().toLowerCase() === species.toLowerCase()) {
+        arrayWithResults.push(`${character.name} - ${key} - ${character[key]}`);
       }
     }
   });

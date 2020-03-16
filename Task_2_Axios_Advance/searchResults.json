@@ -1,10 +1,32 @@
 [
-	"Results of search in 16/03/20 17:57:22",
+	"Results of search in 16/03/20 18:51:39",
 	{
-		"id": 102,
-		"name": "Donna Gueterman",
-		"status": "Dead",
-		"species": "Robot",
+		"id": 94,
+		"name": "Diane Sanchez",
+		"status": "unknown",
+		"species": "Human",
+		"type": "",
+		"gender": "Female",
+		"origin": {
+			"name": "Earth (Unknown dimension)",
+			"url": "https://rickandmortyapi.com/api/location/30"
+		},
+		"location": {
+			"name": "Earth (Unknown dimension)",
+			"url": "https://rickandmortyapi.com/api/location/30"
+		},
+		"image": "https://rickandmortyapi.com/api/character/avatar/94.jpeg",
+		"episode": [
+			"https://rickandmortyapi.com/api/episode/22"
+		],
+		"url": "https://rickandmortyapi.com/api/character/94",
+		"created": "2017-12-01T11:49:43.929Z"
+	},
+	{
+		"id": 249,
+		"name": "Mrs. Sanchez",
+		"status": "unknown",
+		"species": "Human",
 		"type": "",
 		"gender": "Female",
 		"origin": {
@@ -12,14 +34,39 @@
 			"url": ""
 		},
 		"location": {
-			"name": "Planet Squanch",
-			"url": "https://rickandmortyapi.com/api/location/35"
+			"name": "unknown",
+			"url": ""
 		},
-		"image": "https://rickandmortyapi.com/api/character/avatar/102.jpeg",
+		"image": "https://rickandmortyapi.com/api/character/avatar/249.jpeg",
 		"episode": [
-			"https://rickandmortyapi.com/api/episode/21"
+			"https://rickandmortyapi.com/api/episode/1",
+			"https://rickandmortyapi.com/api/episode/6",
+			"https://rickandmortyapi.com/api/episode/14",
+			"https://rickandmortyapi.com/api/episode/30"
 		],
-		"url": "https://rickandmortyapi.com/api/character/102",
-		"created": "2017-12-01T12:21:21.357Z"
+		"url": "https://rickandmortyapi.com/api/character/249",
+		"created": "2017-12-30T18:18:10.965Z"
+	},
+	{
+		"id": 413,
+		"name": "Old Women",
+		"status": "unknown",
+		"species": "Human",
+		"type": "Old Amazons",
+		"gender": "Female",
+		"origin": {
+			"name": "Interdimensional Cable",
+			"url": "https://rickandmortyapi.com/api/location/6"
+		},
+		"location": {
+			"name": "Interdimensional Cable",
+			"url": "https://rickandmortyapi.com/api/location/6"
+		},
+		"image": "https://rickandmortyapi.com/api/character/avatar/413.jpeg",
+		"episode": [
+			"https://rickandmortyapi.com/api/episode/8"
+		],
+		"url": "https://rickandmortyapi.com/api/character/413",
+		"created": "2018-04-15T21:21:32.623Z"
 	}
 ]
