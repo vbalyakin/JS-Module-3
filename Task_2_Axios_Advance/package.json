@@ -1,0 +1,32 @@
+{
+  "name": "valentin-package",
+  "version": "1.0.0",
+  "description": "training package",
+  "main": "task1.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node note.js",
+    "list": "node note.js list",
+    "add": "node note.js add"
+  },
+  "keywords": [
+    "learn",
+    "node.js"
+  ],
+  "author": "Valiantsin",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "csvtojson": "^2.0.10",
+    "date-format": "^3.0.0",
+    "json2csv": "^4.5.4",
+    "json2xls": "^0.1.2",
+    "lodash": "^4.17.15",
+    "yargs": "^15.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1"
+  }
+}

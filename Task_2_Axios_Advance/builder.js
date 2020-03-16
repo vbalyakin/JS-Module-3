@@ -102,22 +102,28 @@ const findCharacterByParameter = (parameter, species) => { // node runner find -
   verifyAndWrite(arrayWithResults);
 };
 
-const findCharacterBySetOfParameters = (parameters, species) => { // node runner findbyset -p "status, species, gender" -s "died, human, female"
+const findCharacterBySetOfParameters = (parameters, species) => { // node runner findbyset -p "status, species, gender" -s "dead, robot, female"
   const array = getCharactersData(),
     arrayWithResults = [],
     divider = /\s*,\s*/,
     arrayWithParameters = parameters.split(divider),
     arrayWithSpecies = species.split(divider);
-  let setOfNames = new Set(),
-    results = [];
   arrayWithResults.push("Results of search in " + getDataStamp());
   array.forEach(character => {
+    let sum = 0;
     for (let key in character) {
-      iterateOverGivenParametersAndWriteResult(character, key, arrayWithParameters, arrayWithSpecies, setOfNames, arrayWithResults);
+      for (let i = 0; i < arrayWithParameters.length; i++) {
+        if (key.toLowerCase() === arrayWithParameters[i].toLowerCase() &&
+          character[key].toString().toLowerCase() === arrayWithSpecies[i].toLowerCase()) {
+          sum ++;
+          if (sum === arrayWithParameters.length) {
+            arrayWithResults.push(character);
+          }
+        }
+      }
     }
   });
-  results = findUniqueElements(arrayWithResults);
-  verifyAndWrite(results);
+  verifyAndWrite(arrayWithResults);
 };
 
 module.exports = {

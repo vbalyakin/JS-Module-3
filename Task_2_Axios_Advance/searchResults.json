@@ -1,30 +1,25 @@
 [
-	"Results of search in 16/03/20 16:19:13",
-	"Bearded Lady",
-	"Beth Smith",
-	"Beth's Mytholog",
-	"Calypso",
-	"Conroy",
-	"Cynthia",
-	"Donna Gueterman",
-	"Evil Beth Clone",
-	"Evil Summer Clone",
-	"Gwendolyn",
-	"Jessica",
-	"Katarina",
-	"Lady Katana",
-	"Lisa",
-	"Lucy",
-	"Mechanical Morty",
-	"Mechanical Summer",
-	"Mrs. Refrigerator",
-	"Mrs. Sullivan",
-	"Pat Gueterman",
-	"Rick Sanchez",
-	"Summer Smith",
-	"Tammy Guetermann",
-	"Tinkles",
-	"Zarbadar Gloonch",
-	"Davin",
-	"SEAL Team Rick"
+	"Results of search in 16/03/20 17:57:22",
+	{
+		"id": 102,
+		"name": "Donna Gueterman",
+		"status": "Dead",
+		"species": "Robot",
+		"type": "",
+		"gender": "Female",
+		"origin": {
+			"name": "unknown",
+			"url": ""
+		},
+		"location": {
+			"name": "Planet Squanch",
+			"url": "https://rickandmortyapi.com/api/location/35"
+		},
+		"image": "https://rickandmortyapi.com/api/character/avatar/102.jpeg",
+		"episode": [
+			"https://rickandmortyapi.com/api/episode/21"
+		],
+		"url": "https://rickandmortyapi.com/api/character/102",
+		"created": "2017-12-01T12:21:21.357Z"
+	}
 ]
