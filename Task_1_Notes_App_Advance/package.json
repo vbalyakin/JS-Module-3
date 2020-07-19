@@ -21,7 +21,7 @@
     "date-format": "^3.0.0",
     "json2csv": "^4.5.4",
     "json2xls": "^0.1.2",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "yargs": "^15.1.0"
   },
   "devDependencies": {
