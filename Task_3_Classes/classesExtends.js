@@ -9,7 +9,7 @@ class Animal {
 }
 
 class Dog extends Animal {
-    constructor (name, voice) {
+    constructor(name, voice) {
         super("Dog", name);
         this.voice = voice;
     }
@@ -19,7 +19,7 @@ class Dog extends Animal {
 }
 
 class Cat extends Animal {
-    constructor (name, voice) {
+    constructor(name, voice) {
         super("Cat", name);
         this.voice = voice;
     }
@@ -28,7 +28,7 @@ class Cat extends Animal {
     }
 }
 
-let shepherd = new Dog("Jack", "Bark");
-console.log(shepherd.bark());
-let maineCoon = new Cat("Yasha", "Meow");
+let shepherd = new Dog("Jack", "Bark"),
+    maineCoon = new Cat("Yasha", "Meow");
 console.log(maineCoon.meow());
+console.log(shepherd.bark());

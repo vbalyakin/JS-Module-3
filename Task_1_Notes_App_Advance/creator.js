@@ -80,8 +80,8 @@ const readNote = title => {
 };
 
 const removeNote = title => {
-    const array = getAllNotes();
-    const sortedNotes = array.length !== 0 ? array.filter(note => note.title !== title) : [];
+    const array = getAllNotes(),
+        sortedNotes = array.length !== 0 ? array.filter(note => note.title !== title) : [];
     if (array.length !== sortedNotes.length) {
         console.log(`Note with title -  ${title} - succesfully deleted!`);
         fs.writeFileSync(pathToNotesStorage, JSON.stringify(sortedNotes, null, "\t"));

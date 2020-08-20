@@ -1,6 +1,6 @@
 const parameters = "раз, два,  три,четыре";
-let divider = /\s*,\s*/;
-let arrayWithParameters = parameters.split(divider);
+let divider = /\s*,\s*/,
+    arrayWithParameters = parameters.split(divider);
 console.log(arrayWithParameters);
 character = {
     "name": "Man",

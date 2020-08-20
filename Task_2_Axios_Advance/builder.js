@@ -11,8 +11,8 @@ const getAllCharacters = () => {
       url: "https://rickandmortyapi.com/api/character/",
     })
     .then(response => {
-      const countOfAllCharacters = response.data.info.count;
-      const counter = countOfCharacters(countOfAllCharacters);
+      const countOfAllCharacters = response.data.info.count,
+        counter = countOfCharacters(countOfAllCharacters);
       axios({
           method: "get",
           url: "https://rickandmortyapi.com/api/character/" + counter,
